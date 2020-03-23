@@ -82,24 +82,24 @@ struct ContentView: View {
 //                print("Button was tapped")
 //            }
             
-//            Button(action: {
-//                print("Button was tapped")
-//            }){
-//                HStack(spacing: 10){
-//                   Image(systemName: "pencil")
-//
-//                    Text("Edit")
-//                }
+            Button(action: {
+                print("Button was tapped")
+            }){
+                HStack(spacing: 10){
+                   Image(systemName: "pencil")
+
+                    Text("Edit")
+                }
+            }
+            
+            
+//            Button("Show Alert"){
+//                self.showingAlert = true
 //            }
-            
-            
-            Button("Show Alert"){
-                self.showingAlert = true
-            }
-                
-            .alert(isPresented: $showingAlert) {
-                Alert(title: Text("Hello SwiftUI"), message: Text("asdfsfsafsaf"), dismissButton: .default(Text("Ok")))
-            }
+//
+//            .alert(isPresented: $showingAlert) {
+//                Alert(title: Text("Hello SwiftUI"), message: Text("asdfsfsafsaf"), dismissButton: .default(Text("Ok")))
+//            }
                         
             .navigationBarTitle("SwiftUI")
             
