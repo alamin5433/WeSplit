@@ -10,24 +10,29 @@ import SwiftUI
 
 struct ContentView: View {
     
-    @State private var checkAmount = ""
-    @State private var numberOfPeople = 2
-    @State private var tipPercentage = 2
-    let tipPercentages =  [10, 15, 20, 25, 0]
-    var tipAmout: Double {
-        let cAmount = Double(checkAmount) ?? 0
-        let tipSelection = Double(tipPercentages[tipPercentage])
-        let noOfPeopleSelection = Double (numberOfPeople + 2)
-        return (cAmount+(cAmount * tipSelection / 100)) / noOfPeopleSelection
-      
-    }
+//    @State private var checkAmount = ""
+//    @State private var numberOfPeople = 2
+//    @State private var tipPercentage = 2
+//    let tipPercentages =  [10, 15, 20, 25, 0]
+//    var tipAmout: Double {
+//        let cAmount = Double(checkAmount) ?? 0
+//        let tipSelection = Double(tipPercentages[tipPercentage])
+//        let noOfPeopleSelection = Double (numberOfPeople + 2)
+//        return (cAmount+(cAmount * tipSelection / 100)) / noOfPeopleSelection
+//
+//    }
+//
+//    var TotalAmt: Double {
+//        let cAmount = Double(checkAmount) ?? 0
+//        let tipSelection = Double(tipPercentages[tipPercentage])
+//        return cAmount + tipSelection
+//
+//    }
+    @State private var scoreTitle = ""
     
-    var TotalAmt: Double {
-        let cAmount = Double(checkAmount) ?? 0
-        let tipSelection = Double(tipPercentages[tipPercentage])
-        return cAmount + tipSelection
-      
-    }
+    @State private var countries = ["Estonia", "Fraswxnce", "Germany", "Ireland", "Italy", "Nigeria", "Poland", "Russia", "Spain", "UK", "US"].shuffled()
+    
+    @State private var correctAnswer = Int.random(in: 0...2)
     
     @State private var showingAlert = false
     var body: some View {
@@ -82,15 +87,15 @@ struct ContentView: View {
 //                print("Button was tapped")
 //            }
             
-            Button(action: {
-                print("Button was tapped")
-            }){
-                HStack(spacing: 10){
-                   Image(systemName: "pencil")
-
-                    Text("Edit")
-                }
-            }
+//            Button(action: {
+//                print("Button was tapped")
+//            }){
+//                HStack(spacing: 10){
+//                   Image(systemName: "pencil")
+//
+//                    Text("Edit")
+//                }
+//            }
             
             
 //            Button("Show Alert"){
@@ -100,11 +105,68 @@ struct ContentView: View {
 //            .alert(isPresented: $showingAlert) {
 //                Alert(title: Text("Hello SwiftUI"), message: Text("asdfsfsafsaf"), dismissButton: .default(Text("Ok")))
 //            }
+            
+            
+            
+            
+            ZStack {
+                Color.blue.edgesIgnoringSafeArea(.all)
+                VStack(spacing: 30) {
+                    VStack {
+                        Text("Tap the flag of ")
+                        .foregroundColor(.white)
+                        Text(countries[correctAnswer])
+                        .foregroundColor(.white)
+                    }
+                    
+                    
+                    ForEach(0 ..< 3) { number in
+                        Button(action: {
+                            self.flagTapped(number: number)
+                            
+                        }){
+                            Image(self.countries[number])
+                                .renderingMode(.original)
+                            .clipShape(Capsule())
+                                .overlay(Capsule().stroke(Color.black, lineWidth: 1))
+                            .shadow(color: .black, radius: 2)
+                        }
+                    
+                        .alert(isPresented: self.$showingAlert) {
+                            Alert(title: Text(self.scoreTitle), message: Text("Your score is ???"), dismissButton: .default(Text("Continue")) {
+                                self.askQuastionAgain()
+                            })
+                        }
+                        
+                           
+                    }
+                    
+                    Spacer()
+                }
+                
+                
+            }
                         
             .navigationBarTitle("SwiftUI")
             
         }
         
+    }
+    
+    
+    func flagTapped(number: Int){
+        if number == correctAnswer {
+            scoreTitle = "Correct"
+        }else{
+            scoreTitle = "Wrong"
+        }
+        showingAlert = true
+        
+    }
+    
+    func askQuastionAgain() {
+        countries.shuffle()
+        correctAnswer = Int.random(in: 0...2)
     }
 }
 
